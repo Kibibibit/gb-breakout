@@ -22,6 +22,8 @@
 
 */
 
+#ifndef __sprites_h_INCLUDE
+#define __sprites_h_INCLUDE
 
 /* Bank of tiles. */
 #define spritesBank 0
@@ -98,9 +100,11 @@
 #define spritesCGBPal7c2 6596
 #define spritesCGBPal7c3 5344
 /* CGBpalette entries. */
-extern unsigned char spritesCGB[];
-extern unsigned char spritesTLE0[];
-extern unsigned char spritesTLE1[];
-extern unsigned char spritesTLE2[];
+extern const unsigned char spritesCGB[];
+extern const unsigned char spritesTLE0[];
+extern const unsigned char spritesTLE1[];
+extern const unsigned char spritesTLE2[];
+
+#endif
 
 /* End of SPRITES.H */
