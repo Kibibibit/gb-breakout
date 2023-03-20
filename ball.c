@@ -3,19 +3,16 @@
 #include <gb/gb.h>
 #include "ball.h"
 #include "constants.h"
-#include "vector.h"
 #include "helpers.h"
+#include "trig.h"
 
 ball_t *ball_create()
 {
 
     ball_t *out = (ball_t *)malloc(sizeof(ball_t));
-    out->x = 0;
-    out->y = 0;
-    out->sub_x = 0;
-    out->sub_y = 0;
-    out->sx = 0;
-    out->sy = 0;
+    out->x.w = 0;
+    out->y.w = 0;
+    out->angle = 0;
 
     set_sprite_tile(BALL_OAM, BALL_TILE_INDEX);
     set_sprite_prop(BALL_OAM, BALL_PALETTE);
@@ -24,25 +21,36 @@ ball_t *ball_create()
 }
 void ball_update(ball_t *ball)
 {
-    vector_t *x_vector = add_sub(ball->x, ball->sub_x, ball->sx);
-    vector_t *y_vector = add_sub(ball->y, ball->sub_y, ball->sy);
+    fixed dx,dy;
+    dx = cos(ball->angle);
+    dy = sin(ball->angle);
 
-    uint8_t new_x = x_vector->x;
-    uint8_t new_sub_x = x_vector->y;
-    uint8_t new_y = y_vector->x;
-    uint8_t new_sub_y = y_vector->y;
+    int8_t sdx, sdy;
+    sdx = cos_sign(ball->angle);
+    sdy = sin_sign(ball->angle);
 
-    free(x_vector);
-    free(y_vector);
+    fixed speed_x;
+    speed_x.w  = (dx.w*2)-(dx.w/2);
+    fixed speed_y;
+    speed_y.w = (dy.w*2)-(dy.w/2);
 
-    ball->x = new_x;
-    ball->y = new_y;
-    ball->sub_x = new_sub_x;
-    ball->sub_y = new_sub_y;
+    if (sdx > 0) {
+        ball->x.w += speed_x.w;
+    } else {
+        ball->x.w -= speed_x.w;
+    }
+    if (sdy > 0) {
+        ball->y.w += speed_y.w;
+    } else {
+        ball->y.w -= speed_y.w;
+    }
+
+
+
 }
 void ball_draw(ball_t *ball)
 {
-    move_sprite(BALL_OAM, ball->x - 8, ball->y - 16);
+    move_sprite(BALL_OAM, ball->x.h - 8, ball->y.h - 16);
 }
 
 void ball_destroy(ball_t *ball)

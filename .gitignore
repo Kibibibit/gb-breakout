@@ -3,6 +3,7 @@
 *.lst
 *.map
 *.gb
+*.gbc
 *.ihx
 *.sym
 *.cdb

@@ -1,6 +1,5 @@
 #include <stdint.h>
 #include "helpers.h"
-#include "vector.h"
 
 uint8_t abs_int(int8_t x)
 {
@@ -35,6 +34,22 @@ uint8_t add_uint(uint8_t a, int8_t b)
     }
 }
 
+int8_t sign_int(int8_t x)
+{
+    if (x == 0)
+    {
+        return 0;
+    }
+    if ((0b10000000 & x) != 0)
+    {
+        return -1;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
 uint8_t clamp(uint8_t x, uint8_t min, uint8_t max)
 {
     if (x < min)
@@ -48,31 +63,25 @@ uint8_t clamp(uint8_t x, uint8_t min, uint8_t max)
     return x;
 }
 
-vector_t * add_sub(uint8_t a, uint8_t sub_a, int8_t b)
+uint8_t uint_diff(uint8_t a, uint8_t b)
 {
-    uint8_t new_sub = sub_a;
-    uint8_t new_a = a;
-
-    uint8_t i;
-    for (i = 0; i < abs_int(b); i++) {
-
-        if (b < 0) {
-            if (new_sub == 0) {
-                new_sub = 9;
-                new_a -= 1;
-            } else {
-                new_sub-=1;
-            }
-        } else {
-            if (new_sub == 9) {
-                new_sub = 0;
-                new_a += 1;
-            } else {
-                new_sub+=1;
-            }
-        }
-
+    uint8_t x, y;
+    if (a < b)
+    {
+        x = a;
+        y = b;
     }
+    else
+    {
+        x = b;
+        y = a;
+    }
+    return y - x;
+}
 
-    return vector_create(new_a, new_sub);
+uint8_t wrap(uint8_t a, uint8_t min, uint8_t max)
+{
+   uint8_t diff = max-min;
+   uint8_t m = (a-min) % diff;
+   return m+min;
 }

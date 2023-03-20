@@ -1,7 +1,9 @@
 #include <gb/gb.h>
 #include <stdint.h>
 #include "load_data.h"
+#include "trig.h"
 #include "ball.h"
+#include "helpers.h"
 
 uint8_t main()
 {
@@ -16,11 +18,11 @@ uint8_t main()
     load_sprites();
     load_tiles();
 
+
     ball_t *ball = ball_create();
-    ball->x = 64;
-    ball->y = 64;
-    ball->sx = 4;
-    ball->sy = -4;
+    ball->x.h = 32;
+    ball->y.h = 32;
+    ball->angle = DEG_15;
 
     while (1)
     {

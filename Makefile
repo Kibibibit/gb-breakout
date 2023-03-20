@@ -1,6 +1,6 @@
 CC	= ${GBDK}/bin/lcc -Wa-l -Wl-m -Wl-j
 
-BINS	= breakout.gbc
+BINS	= breakout.gb
 
 all:	$(BINS)
 
@@ -13,11 +13,11 @@ all:	$(BINS)
 %.s:	%.c
 	$(CC) $(CFLAGS) -S -o $@ $<
 
-%.gb:	%.o
+%.gc:	%.o
 	$(CC) -o $@ $<
 
 clean:
-	rm -f *.o *.lst *.map *.gbc *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi *.adb
+	rm -f *.o *.lst *.map *.gb *~ *.rel *.cdb *.ihx *.lnk *.sym *.asm *.noi *.adb *.gbc
 
-breakout.gbc:	breakout.o load_data.o sprites.o ball.o paddle.o vector.o helpers.o
-	$(CC) $(CFLAGS) -Wm-yC -o breakout.gb breakout.o load_data.o sprites.o ball.o paddle.o vector.o helpers.o
+breakout.gb:	breakout.o load_data.o trig.o sprites.o ball.o paddle.o helpers.o
+	$(CC) $(CFLAGS) -Wm-yC -o breakout.gb trig.o breakout.o load_data.o sprites.o ball.o paddle.o helpers.o 
